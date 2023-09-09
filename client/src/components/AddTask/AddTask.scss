@@ -1,0 +1,41 @@
+.addTask {
+  display: none;
+  position: relative;
+  
+  .addTask__input {
+    // text-align: center;
+    font-weight: 300;
+    padding: 3%;
+    padding-left: 10%;
+    color: #fff;
+    background: #48576e;
+    width: 100%;
+    outline: none;
+    // border: 1px solid #9eb3d2;
+    border: none;
+    border-radius: 20px;
+    &::placeholder {
+      color: #9eb3  d2;
+    }
+  }
+  .addTask__btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 20px;
+    border: 1px solid #9eb3d2;
+    width: 30%;
+    height: 100%;
+    background: #48576e;
+    cursor: pointer;
+    transition: background-color .2s ease;
+    color: #9eb3d2;
+    font-size: 1em;
+    &:hover {
+      background: #647083;
+    }
+  }
+  &.addTask_active {
+    display: block;
+  }
+}

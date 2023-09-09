@@ -1,0 +1,29 @@
+.dayInfo__task {
+  font-size: 1vw;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #9eb3d2;
+  padding-bottom: 5%;
+  margin: 0 5%;
+  margin-bottom: 5%;
+  .task__label {
+    display: inline-block;
+    margin-right: 5%;
+  }
+  .task__tickBtn {
+    font-size: 1.5vw;
+    border-radius: 15%;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #9eb3d2;
+    color: #222;
+    transition: all .5s ease;
+    &.completed{
+      background-color: #222;
+      color: #9eb3d2;
+    }
+  } 
+  &:last-child {
+    border-bottom: none;
+  }
+}

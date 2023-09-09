@@ -1,0 +1,50 @@
+.dayInfo {
+  grid-column: 1/2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  max-height: 75vh;
+  .dayInfo__wrapper{
+    width: 80%;
+    height: 70%;
+    margin: 0 auto;
+    background-color: #222;
+    border-radius: 7%;
+    padding: 10%;
+    opacity: 0;
+    transition: opacity .2s ease;
+    
+    &.open {
+      opacity: 1;
+    } 
+    .dayInfo__header {
+      .dayInfo__title {
+        font-size: 2vw;
+        text-align: center;
+        border-bottom: 1px solid #9eb3d2;
+        padding-bottom: 1%;
+        margin-bottom: 1%;
+      }
+      .dayInfo__date {
+        font-size: 1.2em;
+        text-align: center;
+        margin-bottom: 10%;
+        font-weight: 300;
+      }
+    }
+    .dayInfo__tasksToCompleteWrapper {
+      max-height: 65%;
+      overflow: auto;
+      &::-webkit-scrollbar {
+        width: 1em;
+        height: 1em; 
+        background-color: #222;
+      } 
+      &::-webkit-scrollbar-thumb {
+        background-color: #9eb3d2;
+        border-radius: 9em;
+      }
+    }
+    
+  }
+}

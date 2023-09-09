@@ -1,0 +1,26 @@
+.header {
+  border-bottom: 1px solid #47566d;
+  padding: 20px 0;
+  .header__wrapper {
+    margin: 0 auto;
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    
+    .header__date {
+      font-size: 3vw;
+      letter-spacing: 5px;
+      display: inline;
+    }
+    .header__arrowBtn {
+      font-size: 3vw;
+      margin-top: 1%;
+      color: #48576e;
+      cursor: pointer;
+      transition: all .4s ease;
+      &:hover {
+        color: #9eb3d2;
+      }
+    }
+  }   
+}

@@ -1,0 +1,104 @@
+.taskList {
+	grid-column: 4/5;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	max-height: 75vh;
+	.taskList__wrapper {
+		position: relative;
+		height: 100%;
+		display: grid;
+		grid-template-columns: 0.8fr 4.2fr;
+		background-color: #222;
+		height: 80%;
+		border-radius: 7% 0 0 7%;
+
+		padding-left: 0;
+		transition: transform 0.5s ease;
+		&.closed {
+			transform: translateX(85%);
+		}
+		.taskList__openBtnWrapper {
+			cursor: pointer;
+			border-radius: 12px 0 0 12px;
+			background-color: #222;
+			max-height: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			transition: background-color 0.5s ease;
+			&:hover {
+				background-color: #48576e;
+				.taskList__openBtn,
+				.taskList__openBtn.closed {
+					color: #9eb3d2;
+				}
+				.taskList__openBtn {
+					transform: rotate(-180deg);
+					&.closed {
+						transform: rotate(0);
+					}
+				}
+			}
+			.taskList__openBtn {
+				margin: 0 auto;
+				font-size: 2vw;
+				color: #647083;
+				left: 1%;
+				top: 50%;
+				cursor: pointer;
+				transition: all 0.5s ease;
+				&.closed {
+					transform: rotate(-180deg);
+				}
+			}
+		}
+
+		.taskList__content {
+			padding: 12%;
+			padding-left: 5%;
+			overflow: auto;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+
+			.taskList__title {
+				font-size: 2vw;
+				padding-bottom: 5%;
+
+				border-bottom: 1px solid #9eb3d2;
+			}
+			.taskList__list {
+				height: 60%;
+				margin: 5% 0;
+				overflow: inherit;
+				flex: 1 1 auto;
+				&::-webkit-scrollbar {
+					width: 1em;
+					height: 1em;
+					background-color: #222;
+				}
+				&::-webkit-scrollbar-thumb {
+					background-color: #9eb3d2;
+					border-radius: 9em;
+					// box-shadow: inset 1px 1px 10px #222;
+				}
+			}
+			.taskList__footer {
+				margin-top: 5%;
+				padding-top: 5%;
+				border-top: 1px solid #9eb3d2;
+				text-align: center;
+				.taskList__addBtn {
+					font-size: 1.5vw;
+					cursor: pointer;
+					transition: all 0.4s ease;
+					&:hover {
+						color: #647083;
+					}
+				}
+			}
+		}
+	}
+}

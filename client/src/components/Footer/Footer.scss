@@ -1,0 +1,16 @@
+.footer {
+  border-top: 1px solid #48576e;
+  padding: 20px 2%;
+  display: flex;
+  justify-content: space-between;
+
+  .footer__settingsBtn {
+    color: #48576e;
+    font-size: 2vw;
+    cursor: pointer;
+    transition: all .4s ease;
+  }
+  .footer__settingsBtn:hover {
+    color: #9eb3d2;
+  }
+} 

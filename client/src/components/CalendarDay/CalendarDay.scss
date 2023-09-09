@@ -1,0 +1,47 @@
+.calendar__day {
+	background-color: #48576e;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	border-radius: 30%;
+	padding: 5px 0;
+	font-size: 1.5vw;
+	font-weight: 300;
+	cursor: pointer;
+	border: 1px solid transparent;
+	transition: all 0.4s ease;
+	.day__dot {
+		margin: 0 auto;
+		background-color: #48576e;
+		color: #48576e;
+		transition: all 0.4s ease;
+	}
+
+	&:hover:not(.active),
+	&:hover:not(.active) {
+		background-color: #647083;
+		.day__dot {
+			color: #647083;
+			background-color: #647083;
+		}
+	}
+	&.today,
+	&.today {
+		background-color: #81c323;
+		color: #fff;
+		.day__dot {
+			color: #81c323;
+			background-color: #81c323;
+		}
+	}
+	&.active {
+		background-color: #647083;
+		color: #fff;
+		border: 1px solid #fff;
+	}
+	&.active .day__dot {
+		background-color: #647083;
+		color: #647083;
+	}
+}
