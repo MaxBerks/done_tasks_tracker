@@ -10,24 +10,7 @@ import DayInfo from "./components/DayInfo/DayInfo"
 
 export default function App() {
 	const [currentMoment, setCurrentMoment] = useState(moment())
-	const [taskList, setTaskList] = useState([
-		{
-			label: "Workout",
-			isChoosed: false,
-		},
-		{
-			label: "Workout1",
-			isChoosed: false,
-		},
-		{
-			label: "Workout2",
-			isChoosed: false,
-		},
-		{
-			label: "Workout3",
-			isChoosed: false,
-		},
-	])
+	const [taskList, setTaskList] = useState([])
 	const [calendar, setCalendar] = useState([])
 	const [activeDay, setActiveDay] = useState({ id: -1, tasksToComplete: [], day: moment().clone() })
 	const [isActive, setIsActive] = useState(false)
@@ -40,6 +23,21 @@ export default function App() {
 
 	useEffect(() => {
 		createCalendar()
+		async function getData() {
+			let url = `http://localhost:5000/api/tasks`
+			const response = await fetch(url)
+			const data = await response.json()
+			setTaskList(
+				data.map((task) => {
+					return {
+						label: task.name,
+						isEnabled: task.isEnabled,
+						isChoosed: false,
+					}
+				})
+			)
+		}
+		getData()
 	}, [])
 
 	const createCalendar = () => {

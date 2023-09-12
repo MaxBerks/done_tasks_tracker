@@ -32,9 +32,11 @@ export default function TaskList({ taskList, onChoose, addTask, removeTask }) {
 					<h2 className="taskList__title">Task List</h2>
 
 					<div className="taskList__list">
-						{taskList.map((task, i) => (
-							<Task key={i} taskObj={task} onChoose={onChoose} removeTask={removeTask} />
-						))}
+						{taskList
+							.filter((task) => task.isEnabled)
+							.map((task, i) => (
+								<Task key={i} taskObj={task} onChoose={onChoose} removeTask={removeTask} />
+							))}
 					</div>
 
 					<div className="taskList__footer">

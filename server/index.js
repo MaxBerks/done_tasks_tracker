@@ -1,7 +1,30 @@
-import express from "express";
+import express from "express"
+import router from "./router.js"
+import mongoose from "mongoose"
+import cors from "cors"
 
-const app = express();
+const PORT = 5000
+const DB_URL = `mongodb+srv://user:user@calendar.sjayyzn.mongodb.net/calendar?retryWrites=true&w=majority`
 
-app.listen(5000, () => {
-  console.log("Server started on PORT 5000");
-});
+const corsOptions = {
+	origin: "*",
+	credentials: true, //access-control-allow-credentials:true
+	optionSuccessStatus: 200,
+}
+
+const app = express()
+
+app.use(cors(corsOptions))
+app.use(express.json())
+app.use("/api", router)
+
+async function startApp() {
+	try {
+		await mongoose.connect(DB_URL)
+		app.listen(PORT, () => console.log("SERVER STARTED ON PORT " + PORT))
+	} catch (e) {
+		console.log(e)
+	}
+}
+
+startApp()
