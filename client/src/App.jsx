@@ -88,6 +88,7 @@ export default function App() {
 				tasksToComplete: taskList.map((task) => {
 					return {
 						label: task.label,
+						isEnabled: task.isEnabled,
 						isCompleted: isItCompleted(calendarDay.tasksToComplete, task),
 					}
 				}),

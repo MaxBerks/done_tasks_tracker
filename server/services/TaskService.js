@@ -15,7 +15,6 @@ class TaskService {
 	}
 
 	async enableOrCreate(name) {
-		// const newTask = Task.findOne({ name: name })
 		const newTask = Task.findOneAndUpdate({ name: name }, { isEnabled: true }).then((task) => {
 			if (!task) {
 				return Task.create({ name: name, isEnabled: true })
