@@ -23,22 +23,25 @@ export default function App() {
 
 	useEffect(() => {
 		createCalendar()
-		async function getData() {
-			let url = `http://localhost:5000/api/tasks`
-			const response = await fetch(url)
-			const data = await response.json()
-			setTaskList(
-				data.map((task) => {
-					return {
-						label: task.name,
-						isEnabled: task.isEnabled,
-						isChoosed: false,
-					}
-				})
-			)
-		}
-		getData()
+
+		updateTaskList()
 	}, [])
+
+	async function updateTaskList() {
+		let url = `http://localhost:5000/api/tasks`
+		const response = await fetch(url)
+		const data = await response.json()
+		setTaskList(
+			data.map((task) => {
+				return {
+					id: task._id,
+					label: task.name,
+					isEnabled: task.isEnabled,
+					isChoosed: false,
+				}
+			})
+		)
+	}
 
 	const createCalendar = () => {
 		let buffCalendar = []
@@ -51,9 +54,9 @@ export default function App() {
 			buffCalendar.push({
 				id: i,
 				tasksToComplete: [
-					...taskList.map((item) => {
+					...taskList.map((task) => {
 						return {
-							label: item.label,
+							label: task.label,
 							isCompleted: false,
 						}
 					}),
@@ -95,14 +98,30 @@ export default function App() {
 		setCalendar(buffCalendar)
 	}
 
-	const addTask = (label) => {
+	const addTask = async (label) => {
 		if (label === "") return
-		setTaskList([...taskList, { label: label, isCompleted: false }])
+		let url = `http://localhost:5000/api/tasks/enableOrCreate`
+		await fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ name: label }),
+		})
+		updateTaskList()
 	}
 
-	const removeTask = (label) => {
-		if (label === "") return
-		setTaskList([...taskList.filter((item) => item.label !== label)])
+	const removeTask = async (label, id) => {
+		if (label === "" || id === "") return
+		let url = `http://localhost:5000/api/tasks/disable`
+		await fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ _id: id }),
+		})
+		updateTaskList()
 	}
 
 	const updateActive = (calendarDay) => {
