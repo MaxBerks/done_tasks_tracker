@@ -17,14 +17,18 @@ export default function App() {
 	const [isModalActive, setIsModalActive] = useState(false)
 
 	useEffect(() => {
+		// console.log("effect 2")
 		updateCalendar()
 		setIsActive(false)
 	}, [taskList])
 
 	useEffect(() => {
-		createCalendar()
+		const func = async () => {
+			await createCalendar()
+			updateTaskList()
+		}
 
-		updateTaskList()
+		func()
 	}, [])
 
 	async function updateTaskList() {
@@ -43,7 +47,7 @@ export default function App() {
 		)
 	}
 
-	async function updateDayData(day) {
+	const updateDayData = async (day) => {
 		let url = `http://localhost:5000/api/days/updateDay`
 		await fetch(url, {
 			method: "POST",
@@ -59,7 +63,14 @@ export default function App() {
 		})
 	}
 
-	const createCalendar = () => {
+	const createCalendar = async () => {
+		let url = `http://localhost:5000/api/days`
+		const response = await fetch(url)
+		const data = await response.json()
+		// console.log(currentMoment.get("month") + 1)
+		let currentMonth = data.filter((day) => day.month === +currentMoment.get("month") + 1)
+		console.log(currentMonth)
+
 		let buffCalendar = []
 		const startDay = currentMoment.startOf("month").clone()
 		const endDay = currentMoment.endOf("month").clone()
@@ -67,16 +78,24 @@ export default function App() {
 		let day = startDay.clone()
 		let i = 0
 		do {
-			buffCalendar.push({
-				id: i,
-				tasksToComplete: [
-					...taskList.map((task) => {
+			let thisDay = currentMonth.find((item) => item.day === day.get("date"))
+			let thisDayTasks = thisDay
+				? thisDay.tasks.map((task) => {
+						return {
+							label: task.name,
+							isCompleted: task.isCompleted,
+						}
+				  })
+				: taskList.map((task) => {
 						return {
 							label: task.label,
 							isCompleted: false,
 						}
-					}),
-				],
+				  })
+
+			buffCalendar.push({
+				id: i,
+				tasksToComplete: [...thisDayTasks],
 				day: day.clone(),
 			})
 			day.add(1, "d")
@@ -181,16 +200,18 @@ export default function App() {
 		setTaskList(temp)
 	}
 
-	const nextMonth = () => {
+	const nextMonth = async () => {
 		setCurrentMoment(currentMoment.add(1, "month").clone())
-		createCalendar()
+		await createCalendar()
 		setIsActive(false)
+		updateTaskList() // ?
 	}
 
-	const prevMonth = () => {
+	const prevMonth = async () => {
 		setCurrentMoment(currentMoment.subtract(1, "month").clone())
-		createCalendar()
+		await createCalendar()
 		setIsActive(false)
+		updateTaskList() // ?
 	}
 
 	return (

@@ -1,6 +1,11 @@
 import Day from "../models/Day.js"
 
 class DayService {
+	async getAll() {
+		const days = await Day.find()
+		return days
+	}
+
 	async updateDay(day) {
 		let isSmthCompleted = 0
 		day.tasks.forEach((task) => {
