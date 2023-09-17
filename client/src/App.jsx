@@ -43,6 +43,23 @@ export default function App() {
 		)
 	}
 
+	async function updateDayData(day) {
+		// console.log(day.tasksToComplete)
+		let url = `http://localhost:5000/api/days/updateDay`
+		await fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				day: day.day.date(),
+				month: +day.day.month() + 1,
+				year: day.day.year(),
+				tasks: JSON.parse(JSON.stringify(day.tasksToComplete)),
+			}),
+		})
+	}
+
 	const createCalendar = () => {
 		let buffCalendar = []
 		const startDay = currentMoment.startOf("month").clone()
@@ -81,7 +98,6 @@ export default function App() {
 
 	const updateCalendar = () => {
 		let buffCalendar = []
-
 		calendar.forEach((calendarDay) => {
 			buffCalendar.push({
 				id: calendarDay.id,
@@ -90,6 +106,7 @@ export default function App() {
 						label: task.label,
 						isEnabled: task.isEnabled,
 						isCompleted: isItCompleted(calendarDay.tasksToComplete, task),
+						id: task.id,
 					}
 				}),
 				day: calendarDay.day,
@@ -146,7 +163,10 @@ export default function App() {
 			calendar.map((item) => {
 				if (item.day.date() === calendarDay.day.date()) {
 					item.tasksToComplete = JSON.parse(JSON.stringify(temp))
+					updateDayData(item)
+					// ?==============================================================================================
 				}
+
 				return item
 			})
 		)
