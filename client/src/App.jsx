@@ -44,7 +44,6 @@ export default function App() {
 	}
 
 	async function updateDayData(day) {
-		// console.log(day.tasksToComplete)
 		let url = `http://localhost:5000/api/days/updateDay`
 		await fetch(url, {
 			method: "POST",

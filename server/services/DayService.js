@@ -48,29 +48,3 @@ class DayService {
 }
 
 export default new DayService()
-
-// {
-//   day: 1,
-//   month: 9,
-//   year: 2023,
-//   tasks: [
-//     {
-//       label: 'Reading',
-//       isEnabled: true,
-//       isCompleted: true,
-//       id: '65016d5f6170c504517dfca7'
-//     },
-//     {
-//       label: 'Workout',
-//       isEnabled: false,
-//       isCompleted: false,
-//       id: '65016d686170c504517dfcab'
-//     },
-//     {
-//       label: 'Tea',
-//       isEnabled: true,
-//       isCompleted: true,
-//       id: '65016d6c6170c504517dfcaf'
-//     }
-//   ]
-// }
