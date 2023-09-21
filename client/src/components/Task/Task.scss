@@ -1,40 +1,39 @@
 .taskList__task {
-  display: flex;
-  justify-content: space-between;
-  margin: 0 5%;
-  margin-bottom: 3%;
-  .task__label {
-    display: inline-block;
-    font-size: 1.3vw;
-    transition: text-decoration .4s ease;
-    position: relative;
-    cursor: pointer;
-    &::after {
-      content: '';  
-      width: 0px;
-      height: 2px;
-      display: block;
-      background: #9eb3d2;
-      transition: 300ms;
-      position: absolute;
-      top: 50%;
-    }
-    &:hover {
-      &::after{
-        width: 100%;
-      }
-    }
-    
-  }
-  .task__chooseBtn {
-    border-radius: 10%;
-    font-size: 1.5vw;
-    cursor: pointer;
-    color: #222;
-    background-color: #9eb3d2;
-    transition: color .2s ease;
-    &.choosed {
-      color: #9eb3d2;
-    }
-  }
+	display: flex;
+	justify-content: space-between;
+	margin: 0 5%;
+	margin-bottom: 3%;
+	.task__label {
+		display: inline-block;
+		font-size: 1.3vw;
+		transition: text-decoration 0.4s ease;
+		position: relative;
+		cursor: pointer;
+		&::after {
+			content: "";
+			width: 0px;
+			height: 1px;
+			display: block;
+			background: #9eb3d2;
+			transition: 300ms;
+			position: absolute;
+			top: 50%;
+		}
+		&:hover {
+			&::after {
+				width: 100%;
+			}
+		}
+	}
+	.task__chooseBtn {
+		border-radius: 10%;
+		font-size: 1.5vw;
+		cursor: pointer;
+		color: #222;
+		background-color: #9eb3d2;
+		transition: color 0.2s ease;
+		&.choosed {
+			color: #9eb3d2;
+		}
+	}
 }
