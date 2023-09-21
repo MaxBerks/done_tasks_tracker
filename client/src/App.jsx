@@ -17,7 +17,6 @@ export default function App() {
 	const [isModalActive, setIsModalActive] = useState(false)
 
 	useEffect(() => {
-		// console.log("effect 2")
 		updateCalendar()
 		setIsActive(false)
 	}, [taskList])
@@ -67,7 +66,6 @@ export default function App() {
 		let url = `http://localhost:5000/api/days`
 		const response = await fetch(url)
 		const data = await response.json()
-		// console.log(currentMoment.get("month") + 1)
 		let currentMonth = data.filter((day) => day.month === +currentMoment.get("month") + 1)
 		console.log(currentMonth)
 
@@ -182,7 +180,6 @@ export default function App() {
 				if (item.day.date() === calendarDay.day.date()) {
 					item.tasksToComplete = JSON.parse(JSON.stringify(temp))
 					updateDayData(item)
-					// ?==============================================================================================
 				}
 
 				return item
@@ -204,14 +201,14 @@ export default function App() {
 		setCurrentMoment(currentMoment.add(1, "month").clone())
 		await createCalendar()
 		setIsActive(false)
-		updateTaskList() // ?
+		updateTaskList()
 	}
 
 	const prevMonth = async () => {
 		setCurrentMoment(currentMoment.subtract(1, "month").clone())
 		await createCalendar()
 		setIsActive(false)
-		updateTaskList() // ?
+		updateTaskList()
 	}
 
 	return (
