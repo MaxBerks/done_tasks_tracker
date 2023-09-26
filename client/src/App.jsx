@@ -3,7 +3,7 @@ import "./App.scss"
 import moment from "moment/moment"
 
 import Calendar from "./components/Calendar/Calendar"
-import Header from "./components/Header/Header"
+import Header from "./components/Calendar/Header/Header"
 import Footer from "./components/Footer/Footer"
 import TaskList from "./components/TaskList/TaskList"
 import DayInfo from "./components/DayInfo/DayInfo"
@@ -67,7 +67,6 @@ export default function App() {
 		const response = await fetch(url)
 		const data = await response.json()
 		let currentMonth = data.filter((day) => day.month === +currentMoment.get("month") + 1)
-		console.log(currentMonth)
 
 		let buffCalendar = []
 		const startDay = currentMoment.startOf("month").clone()
