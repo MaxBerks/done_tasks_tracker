@@ -4,7 +4,43 @@ import "./CalendarDay.scss"
 import { BsCheckCircleFill } from "react-icons/bs"
 import classNames from "classnames"
 
-export default function CalendarDay({ calendarDay, isActive, activeDay, taskList, onActive }) {
+type TypeTaskObj = {
+	id: string
+	label: string
+	isEnabled: boolean
+	isChoosed: boolean
+}
+
+type TypeTaskToCompleteObj = {
+	id: string
+	label: string
+	isEnabled: boolean
+	isCompleted: boolean
+}
+
+type TypeCalendarDay = {
+	day: any //!!!!!!!!!!!!!!!!!!!!!!
+	id: number
+	tasksToComplete: TypeTaskToCompleteObj[]
+}
+
+type TypeOnActiveFunction = (calendarDay: TypeCalendarDay) => void
+
+type TypeCalendarDayProps = {
+	calendarDay: TypeCalendarDay
+	isActive: boolean
+	activeDay: TypeCalendarDay
+	taskList: TypeTaskObj[]
+	onActive: TypeOnActiveFunction
+}
+
+export default function CalendarDay({
+	calendarDay,
+	isActive,
+	activeDay,
+	taskList,
+	onActive,
+}: TypeCalendarDayProps) {
 	const isToday =
 		calendarDay.day.date() === moment().date() &&
 		calendarDay.day.month() === moment().month() &&
@@ -22,7 +58,8 @@ export default function CalendarDay({ calendarDay, isActive, activeDay, taskList
 		active: isActiveThisMonth,
 	})
 
-	const choosedTasks = []
+	let choosedTasks: TypeTaskObj[]
+	choosedTasks = []
 	taskList.forEach((item) => {
 		if (item.isChoosed === true) {
 			choosedTasks.push(item)
