@@ -3,18 +3,73 @@ import "./App.scss"
 import moment from "moment/moment"
 
 import Calendar from "./components/Calendar/Calendar"
-import Header from "./components/Calendar/Header/Header"
+import Header from "./components/Header/Header"
 import Footer from "./components/Footer/Footer"
 import TaskList from "./components/TaskList/TaskList"
 import DayInfo from "./components/DayInfo/DayInfo"
 
+type TypeTaskWithID = {
+	isCompleted: boolean
+	name: string
+	taskId: string
+}
+
+type TypeDay = {
+	day: number
+	month: number
+	year: number
+	tasks: TypeTaskWithID[]
+}
+
+type TypeTask = {
+	isEnabled: false
+	name: "Workout"
+	_id: string
+}
+
+type TypeTaskObj = {
+	id: string
+	label: string
+	isEnabled: boolean
+	isCompleted: boolean
+}
+
+interface ActiveDayState {
+	id: number
+	tasksToComplete: TypeTaskObj[]
+	day: moment.Moment
+}
+
+type TypeTaskToCompleteObj = {
+	id: string
+	label: string
+	isEnabled: boolean
+	isCompleted: boolean
+}
+
+type TypeTaskChoose = {
+	id: string
+	label: string
+	isEnabled: boolean
+	isChoosed: boolean
+}
+
+type TypeCalendarDay = {
+	day: moment.Moment
+	id: number
+	tasksToComplete: TypeTaskToCompleteObj[]
+}
+
 export default function App() {
-	const [currentMoment, setCurrentMoment] = useState(moment())
-	const [taskList, setTaskList] = useState([])
-	const [calendar, setCalendar] = useState([])
-	const [activeDay, setActiveDay] = useState({ id: -1, tasksToComplete: [], day: moment().clone() })
-	const [isActive, setIsActive] = useState(false)
-	const [isModalActive, setIsModalActive] = useState(false)
+	const [currentMoment, setCurrentMoment] = useState<moment.Moment>(moment())
+	const [taskList, setTaskList] = useState<TypeTaskChoose[]>([])
+	const [calendar, setCalendar] = useState<TypeCalendarDay[]>([])
+	const [activeDay, setActiveDay] = useState<ActiveDayState>({
+		id: -1,
+		tasksToComplete: [],
+		day: moment().clone(),
+	})
+	const [isActive, setIsActive] = useState<boolean>(false)
 
 	useEffect(() => {
 		updateCalendar()
@@ -22,12 +77,12 @@ export default function App() {
 	}, [taskList])
 
 	useEffect(() => {
-		const func = async () => {
+		const start = async () => {
 			await createCalendar()
 			updateTaskList()
 		}
 
-		func()
+		start()
 	}, [])
 
 	async function updateTaskList() {
@@ -35,7 +90,8 @@ export default function App() {
 		const response = await fetch(url)
 		const data = await response.json()
 		setTaskList(
-			data.map((task) => {
+			data.map((task: TypeTask) => {
+				// console.log(task) //&&&&&&
 				return {
 					id: task._id,
 					label: task.name,
@@ -46,7 +102,8 @@ export default function App() {
 		)
 	}
 
-	const updateDayData = async (day) => {
+	const updateDayData = async (day: ActiveDayState) => {
+		// console.log(day) //&&&&&&
 		let url = `http://localhost:5000/api/days/updateDay`
 		await fetch(url, {
 			method: "POST",
@@ -66,7 +123,10 @@ export default function App() {
 		let url = `http://localhost:5000/api/days`
 		const response = await fetch(url)
 		const data = await response.json()
-		let currentMonth = data.filter((day) => day.month === +currentMoment.get("month") + 1)
+		let currentMonth = data.filter((day: TypeDay) => {
+			// console.log(day) //&&&&
+			return day.month === +currentMoment.get("month") + 1
+		})
 
 		let buffCalendar = []
 		const startDay = currentMoment.startOf("month").clone()
@@ -75,15 +135,20 @@ export default function App() {
 		let day = startDay.clone()
 		let i = 0
 		do {
-			let thisDay = currentMonth.find((item) => item.day === day.get("date"))
+			let thisDay = currentMonth.find((item: TypeDay) => {
+				// console.log(item) //&&&&
+				return item.day === day.get("date")
+			})
 			let thisDayTasks = thisDay
-				? thisDay.tasks.map((task) => {
+				? thisDay.tasks.map((task: TypeTaskWithID) => {
+						// console.log(task) //&&&&&
 						return {
 							label: task.name,
 							isCompleted: task.isCompleted,
 						}
 				  })
 				: taskList.map((task) => {
+						// console.log(task) //&&&&
 						return {
 							label: task.label,
 							isCompleted: false,
@@ -102,7 +167,9 @@ export default function App() {
 		setCalendar(buffCalendar)
 	}
 
-	const isItCompleted = (taskList, task) => {
+	const isItCompleted = (taskList: TypeTaskObj[], task: TypeTaskChoose) => {
+		// console.log(taskList) //&&&&
+		// console.log(task) //&&&&
 		for (let i = 0; i < taskList.length; i++) {
 			if (taskList[i].label === task.label && taskList[i].isCompleted) {
 				return true
@@ -112,11 +179,13 @@ export default function App() {
 	}
 
 	const updateCalendar = () => {
-		let buffCalendar = []
-		calendar.forEach((calendarDay) => {
+		let buffCalendar: TypeCalendarDay[]
+		buffCalendar = []
+		calendar.forEach((calendarDay: TypeCalendarDay) => {
 			buffCalendar.push({
 				id: calendarDay.id,
 				tasksToComplete: taskList.map((task) => {
+					// console.log(task) //&&&&
 					return {
 						label: task.label,
 						isEnabled: task.isEnabled,
@@ -131,20 +200,26 @@ export default function App() {
 		setCalendar(buffCalendar)
 	}
 
-	const addTask = async (label) => {
+	const addTask = async (label: string) => {
 		if (label === "") return
+
+		const formatted =
+			label.slice(0, 1).toUpperCase() +
+			label.slice(1, 8).toLowerCase() +
+			(label.length > 8 ? "..." : "")
+
 		let url = `http://localhost:5000/api/tasks/enableOrCreate`
 		await fetch(url, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ name: label }),
+			body: JSON.stringify({ name: formatted }),
 		})
 		updateTaskList()
 	}
 
-	const removeTask = async (label, id) => {
+	const removeTask = async (label: string, id: string) => {
 		if (label === "" || id === "") return
 		let url = `http://localhost:5000/api/tasks/disable`
 		await fetch(url, {
@@ -157,7 +232,7 @@ export default function App() {
 		updateTaskList()
 	}
 
-	const updateActive = (calendarDay) => {
+	const updateActive = (calendarDay: TypeCalendarDay) => {
 		setActiveDay(calendarDay)
 
 		const isSameDate =
@@ -169,9 +244,9 @@ export default function App() {
 		setIsActive(!isSameDate || !isActive)
 	}
 
-	const toggleIsCompleted = (calendarDay, label) => {
+	const toggleIsCompleted = (calendarDay: TypeCalendarDay, label: string) => {
 		let temp = JSON.parse(JSON.stringify(calendarDay.tasksToComplete))
-		temp.map((item) => {
+		temp.map((item: TypeTaskObj) => {
 			if (item.label === label) item.isCompleted = !item.isCompleted
 		})
 		setCalendar(
@@ -186,9 +261,9 @@ export default function App() {
 		)
 	}
 
-	const toggleIsChoosed = (label) => {
+	const toggleIsChoosed = (label: string) => {
 		let temp = JSON.parse(JSON.stringify(taskList))
-		temp.map((item) => {
+		temp.map((item: TypeTaskChoose) => {
 			if (item.label === label) {
 				item.isChoosed = !item.isChoosed
 			}
@@ -225,8 +300,6 @@ export default function App() {
 				<TaskList
 					taskList={taskList}
 					onChoose={toggleIsChoosed}
-					onAddTask={addTask}
-					onModal={() => setIsModalActive(!isModalActive)}
 					addTask={addTask}
 					removeTask={removeTask}
 				/>

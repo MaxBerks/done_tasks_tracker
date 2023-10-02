@@ -12,11 +12,11 @@ type TypeTaskToCompleteObj = {
 	id: string
 	label: string
 	isEnabled: boolean
-	isChoosed: boolean
+	isCompleted: boolean
 }
 
 type TypeCalendarDay = {
-	day: any //!!!!!!!!!!!!!!!!!!!!!
+	day: moment.Moment
 	id: number
 	tasksToComplete: TypeTaskToCompleteObj[]
 }

@@ -19,7 +19,7 @@ type TypeTaskToCompleteObj = {
 }
 
 type TypeCalendarDay = {
-	day: any //!!!!!!!!!!!!!!!!!!!!!!
+	day: moment.Moment
 	id: number
 	tasksToComplete: TypeTaskToCompleteObj[]
 }

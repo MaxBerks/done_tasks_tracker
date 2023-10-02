@@ -7,22 +7,16 @@ type TypeTaskToCompleteObj = {
 	id: string
 	label: string
 	isEnabled: boolean
-	isChoosed: boolean
+	isCompleted: boolean
 }
 
 type TypeCalendarDay = {
-	day: any //!!!!!!!!!!!!!!!!!!!!!!
+	day: moment.Moment
 	id: number
 	tasksToComplete: TypeTaskToCompleteObj[]
 }
 
 type TypeToggleIsCompletedFunction = (calendarDay: TypeCalendarDay, label: string) => void
-
-type TypeDayInfoProps = {
-	isActive: boolean
-	activeDay: any //!!!!!!!!!!!!!!!!!!!!!
-	onComplete: TypeToggleIsCompletedFunction
-}
 
 type TypeTaskObj = {
 	id: string
@@ -31,9 +25,20 @@ type TypeTaskObj = {
 	isCompleted: boolean
 }
 
+type TypeActiveDay = {
+	day: moment.Moment
+	id: number
+	tasksToComplete: TypeTaskObj[]
+}
+
+type TypeDayInfoProps = {
+	isActive: boolean
+	activeDay: TypeActiveDay
+	onComplete: TypeToggleIsCompletedFunction
+}
+
 export default function DayInfo({ isActive, activeDay, onComplete }: TypeDayInfoProps) {
 	const dayInfoWrapperClassName = classNames({ dayInfo__wrapper: true, open: isActive })
-
 	return (
 		<div className="dayInfo">
 			<div className={dayInfoWrapperClassName}>
@@ -43,8 +48,8 @@ export default function DayInfo({ isActive, activeDay, onComplete }: TypeDayInfo
 				</div>
 				<div className="dayInfo__tasksToCompleteWrapper">
 					{activeDay.tasksToComplete
-						.filter((task: TypeTaskObj) => task.isEnabled)
-						.map((task: TypeTaskObj, i: number) => (
+						.filter((task) => task.isEnabled)
+						.map((task, i: number) => (
 							<DayInfoTask key={i} activeDay={activeDay} taskObj={task} onComplete={onComplete} />
 						))}
 				</div>
