@@ -8,61 +8,54 @@ import Footer from "./components/Footer/Footer"
 import TaskList from "./components/TaskList/TaskList"
 import DayInfo from "./components/DayInfo/DayInfo"
 
-type TypeTaskWithID = {
+type TypeTaskToComplete = {
+	id: string
+	name: string
+	isEnabled: boolean
+	isCompleted: boolean
+}
+
+type TypeTasklistTask = {
+	id: string
+	name: string
+	isEnabled: boolean
+	isChoosed: boolean
+}
+
+type TypeDayTask = {
 	isCompleted: boolean
 	name: string
 	taskId: string
+}
+
+type TypeDataTask = {
+	isEnabled: false
+	name: string
+	_id: string
 }
 
 type TypeDay = {
 	day: number
 	month: number
 	year: number
-	tasks: TypeTaskWithID[]
-}
-
-type TypeTask = {
-	isEnabled: false
-	name: "Workout"
-	_id: string
-}
-
-type TypeTaskObj = {
-	id: string
-	label: string
-	isEnabled: boolean
-	isCompleted: boolean
+	tasks: TypeDayTask[]
 }
 
 interface ActiveDayState {
 	id: number
-	tasksToComplete: TypeTaskObj[]
+	tasksToComplete: TypeTaskToComplete[]
 	day: moment.Moment
-}
-
-type TypeTaskToCompleteObj = {
-	id: string
-	label: string
-	isEnabled: boolean
-	isCompleted: boolean
-}
-
-type TypeTaskChoose = {
-	id: string
-	label: string
-	isEnabled: boolean
-	isChoosed: boolean
 }
 
 type TypeCalendarDay = {
 	day: moment.Moment
 	id: number
-	tasksToComplete: TypeTaskToCompleteObj[]
+	tasksToComplete: TypeTaskToComplete[]
 }
 
 export default function App() {
 	const [currentMoment, setCurrentMoment] = useState<moment.Moment>(moment())
-	const [taskList, setTaskList] = useState<TypeTaskChoose[]>([])
+	const [taskList, setTaskList] = useState<TypeTasklistTask[]>([])
 	const [calendar, setCalendar] = useState<TypeCalendarDay[]>([])
 	const [activeDay, setActiveDay] = useState<ActiveDayState>({
 		id: -1,
@@ -90,11 +83,10 @@ export default function App() {
 		const response = await fetch(url)
 		const data = await response.json()
 		setTaskList(
-			data.map((task: TypeTask) => {
-				// console.log(task) //&&&&&&
+			data.map((task: TypeDataTask) => {
 				return {
 					id: task._id,
-					label: task.name,
+					name: task.name,
 					isEnabled: task.isEnabled,
 					isChoosed: false,
 				}
@@ -103,7 +95,6 @@ export default function App() {
 	}
 
 	const updateDayData = async (day: ActiveDayState) => {
-		// console.log(day) //&&&&&&
 		let url = `http://localhost:5000/api/days/updateDay`
 		await fetch(url, {
 			method: "POST",
@@ -124,7 +115,6 @@ export default function App() {
 		const response = await fetch(url)
 		const data = await response.json()
 		let currentMonth = data.filter((day: TypeDay) => {
-			// console.log(day) //&&&&
 			return day.month === +currentMoment.get("month") + 1
 		})
 
@@ -136,21 +126,18 @@ export default function App() {
 		let i = 0
 		do {
 			let thisDay = currentMonth.find((item: TypeDay) => {
-				// console.log(item) //&&&&
 				return item.day === day.get("date")
 			})
 			let thisDayTasks = thisDay
-				? thisDay.tasks.map((task: TypeTaskWithID) => {
-						// console.log(task) //&&&&&
+				? thisDay.tasks.map((task: TypeDayTask) => {
 						return {
-							label: task.name,
+							name: task.name,
 							isCompleted: task.isCompleted,
 						}
 				  })
 				: taskList.map((task) => {
-						// console.log(task) //&&&&
 						return {
-							label: task.label,
+							name: task.name,
 							isCompleted: false,
 						}
 				  })
@@ -167,11 +154,9 @@ export default function App() {
 		setCalendar(buffCalendar)
 	}
 
-	const isItCompleted = (taskList: TypeTaskObj[], task: TypeTaskChoose) => {
-		// console.log(taskList) //&&&&
-		// console.log(task) //&&&&
+	const isItCompleted = (taskList: TypeTaskToComplete[], task: TypeTasklistTask) => {
 		for (let i = 0; i < taskList.length; i++) {
-			if (taskList[i].label === task.label && taskList[i].isCompleted) {
+			if (taskList[i].name === task.name && taskList[i].isCompleted) {
 				return true
 			}
 		}
@@ -185,9 +170,8 @@ export default function App() {
 			buffCalendar.push({
 				id: calendarDay.id,
 				tasksToComplete: taskList.map((task) => {
-					// console.log(task) //&&&&
 					return {
-						label: task.label,
+						name: task.name,
 						isEnabled: task.isEnabled,
 						isCompleted: isItCompleted(calendarDay.tasksToComplete, task),
 						id: task.id,
@@ -200,13 +184,13 @@ export default function App() {
 		setCalendar(buffCalendar)
 	}
 
-	const addTask = async (label: string) => {
-		if (label === "") return
+	const addTask = async (name: string) => {
+		if (name === "") return
 
 		const formatted =
-			label.slice(0, 1).toUpperCase() +
-			label.slice(1, 8).toLowerCase() +
-			(label.length > 8 ? "..." : "")
+			name.slice(0, 1).toUpperCase() +
+			name.slice(1, 8).toLowerCase() +
+			(name.length > 8 ? "..." : "")
 
 		let url = `http://localhost:5000/api/tasks/enableOrCreate`
 		await fetch(url, {
@@ -219,8 +203,8 @@ export default function App() {
 		updateTaskList()
 	}
 
-	const removeTask = async (label: string, id: string) => {
-		if (label === "" || id === "") return
+	const removeTask = async (name: string, id: string) => {
+		if (name === "" || id === "") return
 		let url = `http://localhost:5000/api/tasks/disable`
 		await fetch(url, {
 			method: "POST",
@@ -244,10 +228,10 @@ export default function App() {
 		setIsActive(!isSameDate || !isActive)
 	}
 
-	const toggleIsCompleted = (calendarDay: TypeCalendarDay, label: string) => {
+	const toggleIsCompleted = (calendarDay: TypeCalendarDay, name: string) => {
 		let temp = JSON.parse(JSON.stringify(calendarDay.tasksToComplete))
-		temp.map((item: TypeTaskObj) => {
-			if (item.label === label) item.isCompleted = !item.isCompleted
+		temp.map((item: TypeTaskToComplete) => {
+			if (item.name === name) item.isCompleted = !item.isCompleted
 		})
 		setCalendar(
 			calendar.map((item) => {
@@ -261,10 +245,10 @@ export default function App() {
 		)
 	}
 
-	const toggleIsChoosed = (label: string) => {
+	const toggleIsChoosed = (name: string) => {
 		let temp = JSON.parse(JSON.stringify(taskList))
-		temp.map((item: TypeTaskChoose) => {
-			if (item.label === label) {
+		temp.map((item: TypeTasklistTask) => {
+			if (item.name === name) {
 				item.isChoosed = !item.isChoosed
 			}
 		})

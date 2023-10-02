@@ -6,14 +6,14 @@ import classNames from "classnames"
 
 type TypeTaskObj = {
 	id: string
-	label: string
+	name: string
 	isEnabled: boolean
 	isChoosed: boolean
 }
 
 type TypeTaskToCompleteObj = {
 	id: string
-	label: string
+	name: string
 	isEnabled: boolean
 	isCompleted: boolean
 }
@@ -70,7 +70,7 @@ export default function CalendarDay({
 
 	const isChoosedEqualCompleted = choosedTasks.every((item) => {
 		if (choosedTasks.length === 0 || completedTasks.length === 0) return false
-		else return completedTasks.filter((e) => e.label === item.label).length > 0
+		else return completedTasks.filter((e) => e.name === item.name).length > 0
 	})
 
 	return (

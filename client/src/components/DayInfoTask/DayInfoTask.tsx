@@ -4,13 +4,13 @@ import { FaCheckSquare } from "react-icons/fa"
 import classNames from "classnames"
 
 type TypeTaskObj = {
-	label: string
+	name: string
 	isCompleted: boolean
 }
 
 type TypeTaskToCompleteObj = {
 	id: string
-	label: string
+	name: string
 	isEnabled: boolean
 	isCompleted: boolean
 }
@@ -21,7 +21,7 @@ type TypeCalendarDay = {
 	tasksToComplete: TypeTaskToCompleteObj[]
 }
 
-type TypeToggleIsCompletedFunction = (calendarDay: TypeCalendarDay, label: string) => void
+type TypeToggleIsCompletedFunction = (calendarDay: TypeCalendarDay, name: string) => void
 
 type TypeDayInfoTaskProps = {
 	activeDay: any //!!!!!!!!!!!!!!!!!!!!!!
@@ -37,10 +37,10 @@ export default function DayInfoTask({ activeDay, taskObj, onComplete }: TypeDayI
 
 	return (
 		<div className="dayInfo__task">
-			<h3 className="task__label">{taskObj.label}</h3>
+			<h3 className="task__name">{taskObj.name}</h3>
 			<FaCheckSquare
 				className={completedTaskBtnClassName}
-				onClick={() => onComplete(activeDay, taskObj.label)}
+				onClick={() => onComplete(activeDay, taskObj.name)}
 			/>
 		</div>
 	)

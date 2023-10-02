@@ -5,7 +5,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io"
 type TypeOnChangeMonthFunction = () => void
 
 type TypeHeaderProps = {
-	currentMoment: any //!!!!!!!!!!!!!!!!!!!!!!
+	currentMoment: moment.Moment
 	onPrevMonth: TypeOnChangeMonthFunction
 	onNextMonth: TypeOnChangeMonthFunction
 }

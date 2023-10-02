@@ -6,13 +6,13 @@ import Task from "../Task/Task"
 import AddTask from "../AddTask/AddTask"
 import classNames from "classnames"
 
-type TypAddTaskFunction = (label: string) => void
-type TypeOnChooseFunction = (label: string) => void
-type TypeRemoveTaskFunction = (label: string, id: string) => void
+type TypAddTaskFunction = (name: string) => void
+type TypeOnChooseFunction = (name: string) => void
+type TypeRemoveTaskFunction = (name: string, id: string) => void
 
 type TypeTaskObj = {
 	id: string
-	label: string
+	name: string
 	isEnabled: boolean
 	isChoosed: boolean
 }

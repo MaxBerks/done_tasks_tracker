@@ -4,14 +4,14 @@ import CalendarDay from "../CalendarDay/CalendarDay"
 
 type TypeTaskObj = {
 	id: string
-	label: string
+	name: string
 	isEnabled: boolean
 	isChoosed: boolean
 }
 
 type TypeTaskToCompleteObj = {
 	id: string
-	label: string
+	name: string
 	isEnabled: boolean
 	isCompleted: boolean
 }

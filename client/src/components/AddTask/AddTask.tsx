@@ -3,7 +3,7 @@ import "./AddTask.scss"
 import classNames from "classnames"
 
 type TypeToggleIsActiveFunction = () => void
-type TypAddTaskFunction = (label: string) => void
+type TypAddTaskFunction = (name: string) => void
 
 type TypeAddTaskProps = {
 	isActive: boolean

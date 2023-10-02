@@ -5,7 +5,7 @@ import classNames from "classnames"
 
 type TypeTaskToCompleteObj = {
 	id: string
-	label: string
+	name: string
 	isEnabled: boolean
 	isCompleted: boolean
 }
@@ -16,11 +16,11 @@ type TypeCalendarDay = {
 	tasksToComplete: TypeTaskToCompleteObj[]
 }
 
-type TypeToggleIsCompletedFunction = (calendarDay: TypeCalendarDay, label: string) => void
+type TypeToggleIsCompletedFunction = (calendarDay: TypeCalendarDay, name: string) => void
 
 type TypeTaskObj = {
 	id: string
-	label: string
+	name: string
 	isEnabled: boolean
 	isCompleted: boolean
 }
