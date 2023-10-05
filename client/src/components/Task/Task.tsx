@@ -21,6 +21,7 @@ type TypeTaskProps = {
 
 const Task = ({ taskObj, onChoose, removeTask }: TypeTaskProps): JSX.Element => {
 	const taskTickBtnClassName = classNames({ task__chooseBtn: true, choosed: taskObj.isChoosed })
+
 	return (
 		<div className="taskList__task">
 			<h3 className="task__name" onClick={() => removeTask(taskObj.name, taskObj.id)}>

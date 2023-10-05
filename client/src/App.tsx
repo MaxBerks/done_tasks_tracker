@@ -105,7 +105,13 @@ export default function App() {
 				day: day.day.date(),
 				month: +day.day.month() + 1,
 				year: day.day.year(),
-				tasks: JSON.parse(JSON.stringify(day.tasksToComplete)),
+				tasks: day.tasksToComplete.map((task) => {
+					return {
+						name: task.name,
+						isCompleted: task.isCompleted,
+						taskId: task.id,
+					}
+				}),
 			}),
 		})
 	}
@@ -117,10 +123,9 @@ export default function App() {
 		let currentMonth = data.filter((day: TypeDay) => {
 			return day.month === +currentMoment.get("month") + 1
 		})
-
 		let buffCalendar = []
-		const startDay = currentMoment.startOf("month").clone()
-		const endDay = currentMoment.endOf("month").clone()
+		const startDay = currentMoment.clone().startOf("month").startOf("week")
+		const endDay = currentMoment.clone().endOf("month").endOf("week")
 
 		let day = startDay.clone()
 		let i = 0
@@ -235,7 +240,11 @@ export default function App() {
 		})
 		setCalendar(
 			calendar.map((item) => {
-				if (item.day.date() === calendarDay.day.date()) {
+				if (
+					item.day.date() === calendarDay.day.date() &&
+					item.day.month() === calendarDay.day.month() &&
+					item.day.year() === calendarDay.day.year()
+				) {
 					item.tasksToComplete = JSON.parse(JSON.stringify(temp))
 					updateDayData(item)
 				}

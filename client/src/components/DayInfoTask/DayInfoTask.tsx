@@ -21,10 +21,16 @@ type TypeCalendarDay = {
 	tasksToComplete: TypeTaskToCompleteObj[]
 }
 
+interface ActiveDayState {
+	id: number
+	tasksToComplete: TypeTaskToCompleteObj[]
+	day: moment.Moment
+}
+
 type TypeToggleIsCompletedFunction = (calendarDay: TypeCalendarDay, name: string) => void
 
 type TypeDayInfoTaskProps = {
-	activeDay: any //!!!!!!!!!!!!!!!!!!!!!!
+	activeDay: ActiveDayState
 	taskObj: TypeTaskObj
 	onComplete: TypeToggleIsCompletedFunction
 }

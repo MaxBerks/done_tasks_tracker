@@ -7,6 +7,7 @@ class DayService {
 	}
 
 	async updateDay(day) {
+		console.log(day)
 		let isSmthCompleted = 0
 		day.tasks.forEach((task) => {
 			if (task.isCompleted) {
@@ -23,7 +24,7 @@ class DayService {
 				{
 					tasks: day.tasks.map((task) => {
 						return {
-							name: task.label,
+							name: task.name,
 							isCompleted: task.isCompleted,
 							taskId: task.taskId,
 						}
@@ -39,9 +40,9 @@ class DayService {
 						year: day.year,
 						tasks: day.tasks.map((task) => {
 							return {
-								name: task.label,
+								name: task.name,
 								isCompleted: task.isCompleted,
-								taskId: task.id,
+								taskId: task.taskId,
 							}
 						}),
 					})
