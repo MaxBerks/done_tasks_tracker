@@ -7,7 +7,6 @@ class DayService {
 	}
 
 	async updateDay(day) {
-		console.log(day)
 		let isSmthCompleted = 0
 		day.tasks.forEach((task) => {
 			if (task.isCompleted) {
