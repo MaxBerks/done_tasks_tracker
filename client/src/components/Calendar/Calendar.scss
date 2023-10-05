@@ -1,11 +1,30 @@
-.calendar {
-	grid-column: 2/3;
-	height: 80%;
-	margin: auto 0;
+.calendar__container {
+	display: flex;
+	flex-direction: column;
 	padding: 0 5%;
-	display: grid;
-	grid-template-columns: repeat(7, 1fr);
-	grid-template-rows: repeat(5, 1fr);
-	grid-gap: 5%;
-	border-radius: 2%;
+	height: 90%;
+	margin: auto 0;
+	.calendar__week {
+		display: grid;
+		grid-column: 1;
+		grid-template-columns: repeat(7, 1fr);
+		list-style-type: none;
+		grid-gap: 5%;
+		.week__item {
+			text-align: center;
+			margin-bottom: 10%;
+			font-weight: 700;
+		}
+	}
+	.calendar {
+		display: grid;
+		grid-column: 2/3;
+		height: 100%;
+		// margin: auto 0;
+
+		grid-template-columns: repeat(7, 1fr);
+		grid-template-rows: repeat(5, 1fr);
+		grid-gap: 5%;
+		border-radius: 2%;
+	}
 }

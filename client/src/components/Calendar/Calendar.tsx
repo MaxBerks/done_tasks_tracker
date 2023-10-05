@@ -40,17 +40,28 @@ export default function Calendar({
 	onActive,
 }: TypeCalendarProps) {
 	return (
-		<div className="calendar">
-			{calendar.map((calendarDay: TypeCalendarDay, i: number) => (
-				<CalendarDay
-					taskList={taskList}
-					key={i}
-					calendarDay={calendarDay}
-					activeDay={activeDay}
-					isActive={isActive}
-					onActive={onActive}
-				/>
-			))}
+		<div className="calendar__container">
+			<ul className="calendar__week">
+				<li className="week__item">Sun</li>
+				<li className="week__item">Mon</li>
+				<li className="week__item">Tue</li>
+				<li className="week__item">Wed</li>
+				<li className="week__item">Thu</li>
+				<li className="week__item">Fri</li>
+				<li className="week__item">Sat</li>
+			</ul>
+			<div className="calendar">
+				{calendar.map((calendarDay: TypeCalendarDay, i: number) => (
+					<CalendarDay
+						taskList={taskList}
+						key={i}
+						calendarDay={calendarDay}
+						activeDay={activeDay}
+						isActive={isActive}
+						onActive={onActive}
+					/>
+				))}
+			</div>
 		</div>
 	)
 }
