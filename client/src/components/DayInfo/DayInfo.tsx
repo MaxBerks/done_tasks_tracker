@@ -44,7 +44,7 @@ export default function DayInfo({ isActive, activeDay, onComplete }: TypeDayInfo
 			<div className={dayInfoWrapperClassName}>
 				<div className="dayInfo__header">
 					<h3 className="dayInfo__title">Day info</h3>
-					<h2 className="dayInfo__date">{activeDay.day.format("Do [of] MMMM")}</h2>
+					<h2 className="dayInfo__date">{activeDay.day.format("ddd Do [of] MMMM")}</h2>
 				</div>
 				<div className="dayInfo__tasksToCompleteWrapper">
 					{activeDay.tasksToComplete
