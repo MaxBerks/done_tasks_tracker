@@ -18,13 +18,17 @@ The Progress Tracker Calendar App is a state-of-the-art tool designed to help in
 
 ## Getting Started
 
-1. **Clone the Repository**: Clone the repository containing the project code.
+1. **Clone the Repository** 
+
+- Clone the repository containing the project code:
     ```bash
     git clone https://github.com/MaxBerks/done_tasks_tracker.git
     cd done_tasks_tracker
     ```
    
-2. **Build the Docker image and start the container with the following command**:
+2. **Starting the Docker Container** 
+
+- Build the Docker image and start the container with the following command:
     
     ```bash
     docker-compose up -d
