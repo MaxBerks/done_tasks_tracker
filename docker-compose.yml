@@ -34,7 +34,7 @@ services:
     image: mongo:latest
     volumes:
       - ./init-mongodb:/docker-entrypoint-initdb.d
-#      - ./mydata:/data/db
+      - ./mydata:/data/db
     ports:
       - "27018:27017"
 
