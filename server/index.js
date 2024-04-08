@@ -4,7 +4,7 @@ import mongoose from "mongoose"
 import cors from "cors"
 
 const PORT = 5000
-const DB_URL = `mongodb+srv://user:user@calendar.sjayyzn.mongodb.net/calendar?retryWrites=true&w=majority`
+const DB_URL = `mongodb://mongodb:27017/done_tasks_tracker`
 
 const corsOptions = {
 	origin: "*",
